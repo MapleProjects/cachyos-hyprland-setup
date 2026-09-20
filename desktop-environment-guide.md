@@ -537,4 +537,81 @@ Navegador ligero de alto rendimiento con capacidades anti-detección para scrapi
      obscura fetch "https://ejemplo.com" --eval "document.title"
      ```
 
+---
+
+## 12. Diagnóstico y Resolución del Bucle de Inicio de Sesión (Login Loop) en SDDM
+
+El *login loop* ocurre cuando el usuario introduce la contraseña en SDDM, la pantalla parpadea en negro brevemente y expulsa la sesión devolviendo al usuario a la pantalla de login. Esto se produce porque SDDM autentica correctamente, pero el compositor (Hyprland) falla durante su inicialización y aborta.
+
+### Problema 1: Sesión Incompatible Seleccionada (`Hyprland` vs `Hyprland (UWSM)`)
+- **Causa:** En instalaciones de CachyOS y Arch Linux, se instalan automáticamente los archivos de sesión de UWSM (`Universal Wayland Session Manager`). Si en el selector de SDDM está activo `Hyprland (UWSM)` pero los servicios systemd de UWSM no están configurados o fallan al registrarse, el proceso cae instantáneamente.
+- **Solución:**
+  1. En la pantalla de SDDM, hacer clic en el selector de sesiones (esquina superior o inferior).
+  2. Seleccionar explícitamente `Hyprland` (sesión directa sin UWSM).
+  3. Ingresar la contraseña para iniciar de manera estándar.
+
+### Problema 2: Variables de Entorno del Greeter y Permisos Qt (`caelestia.conf`)
+- **Causa:** El tema de SDDM de Caelestia utiliza componentes QML que necesitan acceder a archivos locales (como fondos de pantalla en `/usr/share/sddm/themes/caelestia/assets/`). Si SDDM intenta correr bajo Wayland puro sin XCB o sin permisos de lectura XHR en QML, el greeter colapsa o no transfiere correctamente la sesión.
+- **Solución:**
+  Crear el archivo `/etc/sddm.conf.d/caelestia.conf` con las siguientes directivas:
+  ```ini
+  [General]
+  GreeterEnvironment=QML_XHR_ALLOW_FILE_READ=1,QT_QPA_PLATFORM=xcb
+
+  [Theme]
+  Current=caelestia
+  ```
+
+### Problema 3: Falta de Parámetros de Modosetting en NVIDIA
+- **Causa:** En portátiles o sobremesas con tarjetas NVIDIA, Wayland requiere que el controlador del kernel inicialice el búfer de cuadros (Direct Rendering Manager). Si el parámetro `nvidia_drm.modeset=1` no está cargado en el arranque, Hyprland no puede abrir el dispositivo de video y cierra la sesión.
+- **Solución:**
+  1. Asegurar que `/etc/default/grub` incluya en `GRUB_CMDLINE_LINUX_DEFAULT`:
+     ```text
+     nvidia_drm.modeset=1 nvidia_drm.fbdev=1
+     ```
+  2. Regenerar la configuración de GRUB:
+     ```bash
+     sudo grub-mkconfig -o /boot/grub/grub.cfg
+     ```
+  3. Asegurar que los módulos de NVIDIA estén presentes en `/etc/mkinitcpio.conf`:
+     ```text
+     MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+     ```
+     y reconstruir la imagen initramfs con `sudo mkinitcpio -P`.
+
+### Problema 4: Error Fatal de Sintaxis en `hyprland.lua` o Scripts Ausentes
+- **Causa:** Si se modificó la configuración de Hyprland introduciendo un error de sintaxis en Lua, o si se llama a un plugin/binario ausente (por ejemplo, rutas inválidas a `hyprsplit`), el intérprete aborta el arranque.
+- **Solución:**
+  1. Acceder a una consola virtual TTY mediante `Ctrl + Alt + Fn + F3`.
+  2. Iniciar sesión con usuario y contraseña.
+  3. Lanzar Hyprland manualmente para leer el error exacto en la salida estándar:
+     ```bash
+     Hyprland
+     ```
+  4. Si acusa errores de sintaxis en `~/.config/hypr/hyprland.lua`, corregirlos con un editor de texto (`nano ~/.config/hypr/hyprland.lua`).
+
+### Problema 5: Permisos Corruptos en el Directorio del Usuario (`$HOME`)
+- **Causa:** Si se ejecutaron comandos gráficos o paquetes usando `sudo` sin la bandera `-H`, archivos esenciales como `.Xauthority`, carpetas en `~/.local/share/hyprland` o sockets en `/run/user/1000/` pueden quedar con propiedad `root:root`. Hyprland no puede escribir sus archivos de estado y aborta.
+- **Solución:**
+  Restablecer la propiedad del directorio personal desde la consola TTY:
+  ```bash
+  sudo chown -R $USER:$USER /home/$USER
+  ```
+
+### Protocolo de Diagnóstico Paso a Paso desde TTY
+Si el login loop persiste y no se identifica la causa visualmente, seguir este orden de revisión en la TTY (`Ctrl + Alt + Fn + F3`):
+
+1. **Revisar el registro del display manager:**
+   ```bash
+   journalctl -u sddm -b --no-pager -n 60
+   ```
+   Permite ver si SDDM reporta fallos de autenticación PAM o fallos al spawnear la sesión.
+
+2. **Revisar el registro de Hyprland:**
+   ```bash
+   cat ~/.local/share/hyprland/hyprland.log | tail -n 80
+   ```
+   Muestra la causa exacta del cierre del compositor (fallo de GPU, sintaxis Lua o monitor no detectado).
+
+
 
