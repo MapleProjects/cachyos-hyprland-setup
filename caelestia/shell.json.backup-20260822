@@ -1,0 +1,100 @@
+{
+    "appearance": {
+        "deformScale": 1,
+        "font": {
+            "scale": 0.6
+        },
+        "padding": {
+            "scale": 1
+        },
+        "rounding": {
+            "scale": 1
+        },
+        "spacing": {
+            "scale": 1
+        },
+        "transparency": {
+            "base": 0.65,
+            "enabled": true,
+            "layers": 0.1
+        }
+    },
+    "bar": {
+        "activeWindow": {
+            "showOnHover": false
+        },
+        "clock": {
+            "background": true,
+            "showDate": true,
+            "showIcon": false
+        },
+        "persistent": true,
+        "popouts": {
+            "activeWindow": false
+        },
+        "showOnHover": true,
+        "status": {
+            "showBattery": false,
+            "showKbLayout": true,
+            "showLockStatus": false,
+            "showMicrophone": true
+        },
+        "workspaces": {
+            "activeLabel": "",
+            "activeTrail": false,
+            "capitalisation": "lower",
+            "label": "",
+            "occupiedBg": false,
+            "occupiedLabel": "",
+            "perMonitorWorkspaces": false,
+            "showWindows": false
+        }
+    },
+    "border": {
+        "rounding": 0,
+        "thickness": 0
+    },
+    "dashboard": {
+        "dragThreshold": 90,
+        "enabled": false,
+        "showOnHover": true,
+        "showPerformance": true
+    },
+    "enabled": true,
+    "general": {
+        "idle": {
+            "inhibitWhenAudio": false,
+            "inhibitWhenCharging": false,
+            "lockBeforeSleep": false,
+            "timeouts": [
+            ]
+        },
+        "logo": "arch"
+    },
+    "launcher": {
+        "maxShown": 10,
+        "showOnHover": false
+    },
+    "lock": {
+        "enableFprint": true,
+        "enableHowdy": true,
+        "enabled": true,
+        "hideNotifs": false,
+        "maxFprintTries": 3,
+        "maxHowdyTries": 3,
+        "recolourLogo": true,
+        "triggerHowdyOnWake": true
+    },
+    "notifs": {
+        "defaultExpireTimeout": 3000
+    },
+    "paths": {
+        "wallpaperDir": "/home/maple/Pictures/Wallpapers"
+    },
+    "services": {
+        "useTwelveHourClock": false
+    },
+    "sidebar": {
+        "enabled": true
+    }
+}

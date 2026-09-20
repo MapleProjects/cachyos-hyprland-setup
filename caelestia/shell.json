@@ -1,0 +1,139 @@
+{
+    "appearance": {
+        "deformScale": 1,
+        "font": {
+            "scale": 0.6
+        },
+        "padding": {
+            "scale": 1
+        },
+        "rounding": {
+            "scale": 1
+        },
+        "spacing": {
+            "scale": 1
+        },
+        "transparency": {
+            "base": 0.65,
+            "enabled": true,
+            "layers": 0.1
+        }
+    },
+    "bar": {
+        "activeWindow": {
+            "showOnHover": false
+        },
+        "clock": {
+            "background": true,
+            "showDate": true,
+            "showIcon": false
+        },
+        "persistent": true,
+        "popouts": {
+            "activeWindow": false
+        },
+        "scrollActions": {
+            "brightness": false,
+            "volume": false,
+            "workspaces": false
+        },
+        "showOnHover": true,
+        "statusIcons": [
+            {
+                "enabled": false,
+                "id": "lockStatus"
+            },
+            {
+                "enabled": true,
+                "id": "kbLayout"
+            },
+            {
+                "enabled": true,
+                "id": "audio"
+            },
+            {
+                "enabled": true,
+                "id": "microphone"
+            },
+            {
+                "enabled": true,
+                "id": "network"
+            },
+            {
+                "enabled": true,
+                "id": "bluetooth"
+            },
+            {
+                "enabled": false,
+                "id": "battery"
+            }
+        ],
+        "workspaces": {
+            "activeLabel": "",
+            "activeTrail": false,
+            "capitalisation": "Lower",
+            "label": "",
+            "occupiedBg": false,
+            "occupiedLabel": "",
+            "perMonitorWorkspaces": false,
+            "showWindows": true,
+            "maxWindowIcons": 3,
+            "shown": 5
+        }
+    },
+    "border": {
+        "rounding": 0,
+        "thickness": 0
+    },
+    "dashboard": {
+        "dragThreshold": 90,
+        "enabled": false,
+        "showOnHover": true,
+        "showPerformance": true
+    },
+    "enabled": true,
+    "general": {
+        "apps": {
+            "terminal": [
+                "tilix"
+            ]
+        },
+        "idle": {
+            "inhibitWhenAudio": false,
+            "inhibitWhenCharging": false,
+            "lockBeforeSleep": false,
+            "timeouts": [
+            ]
+        },
+        "logo": "cachyos"
+    },
+    "launcher": {
+        "maxShown": 10,
+        "showOnHover": false
+    },
+    "lock": {
+        "enableFprint": true,
+        "enableHowdy": true,
+        "enabled": true,
+        "hideNotifs": false,
+        "maxFprintTries": 3,
+        "maxHowdyTries": 3,
+        "recolourLogo": true,
+        "triggerHowdyOnWake": true
+    },
+    "notifs": {
+        "defaultExpireTimeout": 3000
+    },
+    "paths": {
+        "wallpaperDir": "/home/maple/Imagenes/wallpapers"
+    },
+    "services": {
+        "useTwelveHourClock": false
+    },
+    "sidebar": {
+        "enabled": true
+    },
+    "utilities": {
+        "enabled": false
+    }
+}
