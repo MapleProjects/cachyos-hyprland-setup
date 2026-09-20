@@ -368,6 +368,7 @@ hl.bind(mainMod .. " + N",       hl.dsp.exec_cmd("qs -c caelestia ipc call drawe
 hl.bind(mainMod .. " + S",       hl.dsp.exec_cmd("qs -c caelestia ipc call drawers toggle sidebar"))
 hl.bind(mainMod .. " + U",       hl.dsp.exec_cmd("qs -c caelestia ipc call drawers toggle utilities"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("qs -c caelestia ipc call drawers toggle showall"))
+hl.bind(mainMod .. " + L",         hl.dsp.exec_cmd("qs -c caelestia ipc call lock lock"))
 
 -- Screenshot & Screen Recording
 hl.bind("Print",             hl.dsp.exec_cmd("screenshot"),        { locked = true })
